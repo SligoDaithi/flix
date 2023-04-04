@@ -28,6 +28,7 @@
       </tr>
     </table>
     <%= link_to "Write review", new_movie_review_path(@movie), class: "review" %>
+    <%= render "reviews/form", movie: @movie, review: @review %>
   </div>
 </section>
 <section class="admin">

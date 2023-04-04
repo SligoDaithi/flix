@@ -7,7 +7,7 @@ class ReviewsController < ApplicationController
   end
 
   def new 
-    @review = @movie.reviews.new 
+    @review = @movie.reviews.new()
   end
 
   def create 
@@ -17,6 +17,25 @@ class ReviewsController < ApplicationController
     else 
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def edit
+    @review = @movie.reviews.find(params[:id])
+  end
+
+  def update
+    @review = @movie.reviews.find(params[:id])
+    if @review.update(review_params)
+      redirect_to movie_reviews_path, notice: "Movie '#{@movie.title}' successfully updated!" 
+    else 
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @review = @movie.reviews.find(params[:id]) 
+    @review.destroy 
+    redirect_to movie_reviews_path, status: :see_other, alert: "Review by '#{@review.name}' successfully deleted!"
   end
 
   private 
