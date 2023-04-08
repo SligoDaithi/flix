@@ -4,6 +4,11 @@
   <h2><%= mail_to(@user.email) %></h2>
   <h3>Member Since</h3>
   <p>
-    <%= @user.created_at.strftime("%B %Y") %>
+    <%= @user.username %> is a member since <%= @user.created_at.strftime("%B %Y") %>
   </p>
+  <div class="actions">
+    <%= link_to "Edit", edit_user_path, class: "button edit" %>
+    <%= link_to "Delete", user_path, class: "button delete",
+                          data: { turbo_method: :delete, turbo_confirm: "Permanently delete your account!?" } %>
+  </div>
 </section>
