@@ -9,8 +9,10 @@
   <% if current_user?(@user) %>
     <div class="actions">
       <%= link_to "Edit", edit_user_path, class: "button edit" %>
-      <%= link_to "Delete", user_path, class: "button delete",
-                            data: { turbo_method: :delete, turbo_confirm: "Permanently delete your account!?" } %>
+      <% if current_user_admin? %>
+        <%= link_to "Delete", user_path, class: "button delete",
+                              data: { turbo_method: :delete, turbo_confirm: "Permanently delete your account!?" } %>
+      <% end %>
     </div>
   <% end %>
 </section>
