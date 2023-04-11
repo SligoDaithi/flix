@@ -1,6 +1,7 @@
 class ReviewsController < ApplicationController
 
-  before_action :set_movie  
+  before_action :set_movie 
+  before_action :require_signin 
 
   def index
     @reviews = @movie.reviews 
@@ -12,8 +13,9 @@ class ReviewsController < ApplicationController
 
   def create 
     @review = @movie.reviews.new(review_params) 
+    @review.user = current_user 
     if @review.save 
-      redirect_to movie_reviews_path(@movie), message: "Review for '#{@movie.title}' successfully created by #{@review.name}!"
+      redirect_to movie_reviews_path(@movie), message: "Review for '#{@movie.title}' successfully created by #{@review.user.name}!"
     else 
       render :new, status: :unprocessable_entity
     end
@@ -35,13 +37,13 @@ class ReviewsController < ApplicationController
   def destroy
     @review = @movie.reviews.find(params[:id]) 
     @review.destroy 
-    redirect_to movie_reviews_path, status: :see_other, alert: "Review by '#{@review.name}' successfully deleted!"
+    redirect_to movie_reviews_path, status: :see_other, alert: "Review by '#{@review.user.name}' successfully deleted!"
   end
 
   private 
 
   def review_params
-    params.require(:review).permit(:name, :comment, :stars)
+    params.require(:review).permit(:comment, :stars)
   end
 
   def set_movie

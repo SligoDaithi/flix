@@ -3,8 +3,9 @@
   <% @reviews.each do |review| %>
     <li>
       <%= render "shared/stars", percent: review.stars_as_percent %>
+      <%= profile_image(review.user, 35) %>
       <p>
-        <%= review.name %>
+        <%= link_to review.user.name, review.user %>
         <span class="date">
           <%= time_ago_in_words(review.created_at) %> ago
         </span>
