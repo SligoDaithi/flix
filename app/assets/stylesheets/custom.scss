@@ -590,6 +590,17 @@ section.errors {
   font-weight: bold;
   border: 2px solid #842029;
 }
+.review-profile {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin: 1rem 0;
+
+  p {
+    margin-bottom: auto;
+    margin-left: 0.5rem;
+  }
+}
 .movie-voices li {
   display: flex;
   justify-content: start;
