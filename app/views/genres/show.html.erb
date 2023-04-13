@@ -1,0 +1,34 @@
+<h1><%= @genre.name %> movies</h1>
+<% if current_user_admin? %>
+  <section class="admin genre-admin">
+    <p>As an admin, you can edit or delete this genre.</p>
+    <%= link_to "Edit", edit_genre_path(@genre), class: "button" %> 
+    <%= link_to "Delete", genre_path(@genre), class: "button",
+          data: { turbo_method: :delete, turbo_confirm: "This action cannot be undone. Are you sure?" } %> 
+  </section>
+<% end %>
+<% @genre.movies.each do |movie| %>
+  <section class="movie">
+    <div class="image">
+      <%= image_tag movie.image_file_name %>
+    </div>
+    <div class="summary">
+      <h2>
+        <%= link_to movie.title, movie %>
+      </h2>
+      <h3>
+        <%= total_gross(movie) %>
+      </h3>
+      <span class="stars">
+        <%= render "shared/stars", percent: movie.average_stars_as_percent %>
+      </span>
+      <p>
+        <strong>Director:</strong> <%= movie.director %> <br />
+        <strong>Duration:</strong> <%= movie.duration %> <br />
+      </p>
+      <p>
+        <%= truncate(movie.description, length: 150, separator: ' ') %>
+      </p>
+    </div>
+  </section>
+<% end %>

@@ -29,11 +29,11 @@
 
   <% if @favorite_movies.present? %>
     <h3>Favorite movies</h3>
-    <% @favorite_movies.each do |movie| %>
-      <div class="favorite-movies">
+    <div class="favorite-movies">
+      <% @favorite_movies.each do |movie| %>
         <%= link_to image_tag(movie.image_file_name), movie %>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   <% end %>
 
   <% if current_user?(@user) %>

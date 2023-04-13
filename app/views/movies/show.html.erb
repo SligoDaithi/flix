@@ -39,8 +39,8 @@
     <%= link_to "Write review", new_movie_review_path(@movie), class: "review" %>
     
   </div>
-  <% unless @fans.empty? && @critics.empty? %>
-    <aside>
+  <aside>
+    <% unless @fans.empty? && @critics.empty? %>
       <% if @fans.present? %>
         <h3>Fans</h3>
         <ul class="movie-voices">
@@ -57,8 +57,16 @@
           <% end %>
         </ul>
       <% end %>
-    </aside>
-  <% end %>
+    <% end %>
+    <% if @genres.present? %>
+      <h3>Genres</h3>
+      <ul class="movie-voices">
+        <% @genres.each do |genre| %>
+          <li><%= link_to genre.name, genre_path(genre) %></li>
+        <% end %>
+      </ul>
+    <% end %>
+  </aside>
 </section>
 <% if current_user_admin? %>
   <section class="admin">
