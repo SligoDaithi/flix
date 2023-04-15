@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   end
 
   def show 
-    @user = User.find(params[:id])
+    @user = User.find_by!(username: params[:id])
     @reviews = @user.reviews.all
     @favorite_movies = @user.favorite_movies 
   end
@@ -40,7 +40,7 @@ class UsersController < ApplicationController
   end
 
   def destroy 
-    @user = User.find(params[:id])
+    @user = User.find_by!(username: params[:id])
     @user.destroy 
     redirect_to root_url, status: :see_other, alert: "User '#{@user.name}' successfully deleted!"
   end
@@ -48,7 +48,7 @@ class UsersController < ApplicationController
   private 
 
   def require_correct_user
-    @user = User.find(params[:id])
+    @user = User.find_by!(username: params[:id])
     redirect_to root_url, status: :see_other unless current_user?(@user)
   end
 

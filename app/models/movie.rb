@@ -6,7 +6,9 @@ class Movie < ApplicationRecord
   has_many :critics, through: :reviews, source: :user
   has_many :characterizations, dependent: :destroy 
   has_many :genres, through: :characterizations
-  validates :title, :released_on, :duration, presence: true 
+
+  validates :title, presence: true, uniqueness: true 
+  validates :released_on, :duration, presence: true 
   validates :description, length: { minimum: 25 }
   validates :total_gross, numericality: { greater_than_or_equal_to: 0 } 
   validates :image_file_name, format: {
@@ -24,6 +26,8 @@ class Movie < ApplicationRecord
   scope :grossed_less_than, lambda { |values=250000000| released.where("total_gross < ?", values) }
   scope :grossed_greater_than, lambda { |values=400000000| released.where("total_gross > ?", values) }
 
+  before_save :set_slug 
+
   def average_stars 
     reviews.average(:stars).to_i || 0.0 
   end
@@ -36,5 +40,15 @@ class Movie < ApplicationRecord
     if (reviews.count < 50 && average_stars < 4)
       (total_gross.blank? || total_gross < 225000000)
     end 
+  end
+
+  def to_param
+    slug
+  end
+
+  private 
+
+  def set_slug
+    self.slug = title.parameterize 
   end
 end
