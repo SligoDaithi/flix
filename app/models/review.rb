@@ -7,6 +7,8 @@ class Review < ApplicationRecord
   validates :stars, inclusion: { in: STARS, message: "must be between 1 and 5" } 
   validates :comment, length: { minimum: 4 } 
 
+  scope :past_n_days, lambda { |max=7| where("created_at >= ?", max.days.ago) }
+
   def stars_as_percent 
     (stars / 5.0 ) * 100.0
   end
